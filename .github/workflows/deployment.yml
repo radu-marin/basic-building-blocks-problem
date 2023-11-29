@@ -1,0 +1,22 @@
+name: Deploy App
+on: push
+jobs:
+  lint-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: eslint --ext .jsx --fix src
+      - name: Test
+        run: vitest run
+      - name: Build
+        run: vite build
+      - name: Deploy
+        run: echo "Deploying..."
